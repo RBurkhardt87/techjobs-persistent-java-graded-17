@@ -23,7 +23,8 @@ public abstract class AbstractEntity {
     // I am still not seeing the specific message to user being displayed to user through the template. So...
     //? How do I get the error message to display to the user from abstract parent class .... Instructions didn't mention
     //? changing anything in the templates I don't believe..
-
+    @NotNull
+    @Size(max = 75, message = "Must be less than 75 characters")
     private String name;
 
 
