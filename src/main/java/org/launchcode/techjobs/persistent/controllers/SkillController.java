@@ -15,7 +15,7 @@ import java.util.Optional;
 //? the trailing forward slash with my controllers and redirects.
 
 @Controller
-@RequestMapping("skills/")
+@RequestMapping("/skills")
 public class SkillController {
 
     @Autowired
@@ -44,8 +44,8 @@ public class SkillController {
 
 
     //TODO: displayViewSkill
-    @GetMapping("view/{employerId}")
-    public String displayViewEmployer(Model model, @PathVariable int skillId) {
+    @GetMapping("view/{skillId}")
+    public String displayViewSkill(Model model, @PathVariable int skillId) {
 
         Optional optSkill = skillRepository.findById(skillId);
         if (optSkill.isPresent()) {
