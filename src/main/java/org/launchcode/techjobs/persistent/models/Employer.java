@@ -15,7 +15,7 @@ import java.util.List;
 public class Employer extends AbstractEntity {
 
     //fields
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 100, message = "Must be between 2 and 100 characters")
     private String location;
 
@@ -23,10 +23,9 @@ public class Employer extends AbstractEntity {
 
 
     //TODO: continue Task 3 Add a jobs field to employer after I read chapter 18
-//    @OneToMany
-//    @JoinColumn
-//    private List<Job> jobs = new ArrayList<>();
-
+    @OneToMany
+    @JoinColumn(name = "employer_id")
+    private final List<Job> jobs = new ArrayList<>();
 
 
 
@@ -36,11 +35,16 @@ public class Employer extends AbstractEntity {
 
     //getters/setters
 
-    public @NotNull @Size(min = 2, max = 100, message = "Must be between 2 and 100 characters") String getLocation() {
+    public @NotBlank @Size(min = 2, max = 100, message = "Must be between 2 and 100 characters") String getLocation() {
         return location;
     }
 
     public void setLocation(@NotNull @Size(min = 2, max = 100, message = "Must be between 2 and 100 characters") String location) {
         this.location = location;
+    }
+
+    //TODO: create a getter for jobs ArrayList
+    public List<Job> getJobs() {
+        return jobs;
     }
 }

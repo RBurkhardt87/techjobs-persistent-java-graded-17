@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -18,9 +19,8 @@ public abstract class AbstractEntity {
     @GeneratedValue
     private int id;
 
-    @NotNull
     @NotBlank(message = "You must enter a name")
-    @Size(min= 1, max = 75, message = "Name must be between 1 to 75 characters")
+    @Size( max = 75, message = "Name must be between 1 to 75 characters")
     private String name;
 
 
