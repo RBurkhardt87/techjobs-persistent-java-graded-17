@@ -18,6 +18,7 @@ import java.util.Optional;
 @RequestMapping("/employers")
 public class EmployerController {
 
+    //TODO: add EmployerRepository field
     @Autowired
     private EmployerRepository employerRepository;
 
