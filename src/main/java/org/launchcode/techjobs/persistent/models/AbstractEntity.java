@@ -22,6 +22,14 @@ public abstract class AbstractEntity {
     private String name;
 
 
+    public AbstractEntity() {
+    }
+
+    //although it is an abstract class, the subclasses need a constructor with name field to call to
+    public AbstractEntity(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
@@ -54,5 +62,4 @@ public abstract class AbstractEntity {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 }

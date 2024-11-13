@@ -21,14 +21,17 @@ public class Skill extends AbstractEntity {
     @ManyToMany(mappedBy = "skills")
     private List<Job> jobs = new ArrayList<>();
 
+
+
     public Skill() {
     }
 
-    //TODO: update constructor
-    public Skill(String description, List<Job> jobs) {
+    public Skill(String description) {
+        super();
         this.description = description;
-        this.jobs = jobs;
     }
+
+
 
     public @NotBlank @Size(max = 500, message = "Must be under 500 characters") String getDescription() {
         return description;
@@ -38,7 +41,7 @@ public class Skill extends AbstractEntity {
         this.description = description;
     }
 
-    //TODO: generate getters/setters for jobs field
+
     public List<Job> getJobs() {
         return jobs;
     }

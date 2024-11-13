@@ -26,12 +26,6 @@ public class Employer extends AbstractEntity {
      */
 
 
-
-    //TODO: continue Task 3 Add a jobs field to employer after I read chapter 18
-    //thought I needed to use mappedBy on the @OneToMany, but got an error with it and @JoinColumn
-    //it does make sense that the "one" class would be the one managing/updating the join table
-    //I was using name = "employer" but I was failing test. It wanted "employer_id".
-    //I read a little more about @JoinColumn and it did mention name is foreign key, which in MySQL is employer_id
     @OneToMany
     @JoinColumn(name = "employer_id")
     private List<Job> jobs = new ArrayList<>();
@@ -42,8 +36,14 @@ public class Employer extends AbstractEntity {
     public Employer() {
     }
 
-    //getters/setters
+    public Employer(String location) {
+        super();
+        this.location = location;
+    }
 
+
+
+    //getters/setters
     public @NotBlank @Size(min = 2, max = 100, message = "Must be between 2 and 100 characters") String getLocation() {
         return location;
     }
@@ -52,7 +52,7 @@ public class Employer extends AbstractEntity {
         this.location = location;
     }
 
-    //TODO: create a getter for jobs ArrayList
+
     public List<Job> getJobs() {
         return jobs;
     }

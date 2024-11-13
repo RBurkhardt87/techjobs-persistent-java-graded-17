@@ -6,9 +6,7 @@ import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,18 +16,20 @@ import java.util.Optional;
 @RequestMapping("/employers")
 public class EmployerController {
 
-    //TODO: add EmployerRepository field
+    //TODO: add EmployerRepository
     @Autowired
     private EmployerRepository employerRepository;
 
-    //TODO: displayAddEmployerForm
+
+
+    //displayAddEmployerForm (starter code)
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
         model.addAttribute(new Employer());
         return "employers/add";
     }
 
-    //TODO: processAddEmployerForm
+    //TODO: add line of code that will save a newEmployer to starter code
     @PostMapping("add")
     public String processAddEmployerForm(@ModelAttribute @Valid  Employer newEmployer,
                                          Errors errors, Model model) {
@@ -42,7 +42,7 @@ public class EmployerController {
     }
 
 
-    //TODO: displayViewEmployer
+    //displayViewEmployer (starter code)
     @GetMapping("view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 

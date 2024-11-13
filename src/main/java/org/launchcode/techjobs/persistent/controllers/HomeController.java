@@ -24,29 +24,30 @@ import java.util.Optional;
 @Controller
 public class HomeController {
 
-    //TODO: add EmployerRepository field with @Autowired annotation
+    //TODO: add EmployerRepository with @Autowired annotation
     @Autowired
     private EmployerRepository employerRepository;
 
-    //TODO: add SkillRepository field with @Autowired
+    //TODO: add SkillRepository with @Autowired
     @Autowired
     private SkillRepository skillRepository;
 
-    //! I added a jobRepository to get it to save. Directions didn't tell us to do that....
+    //* Added JobRepository even though directions didn't tell us to do that....How else would I be able to save jobs
     @Autowired
     private JobRepository jobRepository;
 
+
+    //TODO: pass in all the jobs to be displayed in a list
     @RequestMapping("/")
     public String index(Model model) {
-
         model.addAttribute("title", "MyJobs");
         model.addAttribute("jobs", jobRepository.findAll());
-
         return "index";
     }
 
-    //TODO: pass all the employers to the model using the findAll() method on the employerRepository
-    //TODO: added skills to be passed into the view
+
+    //TODO: pass all the employers to the model
+    //TODO: pass all skills to the model
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
         model.addAttribute("title", "Add Job");
@@ -57,127 +58,55 @@ public class HomeController {
         return "add";
     }
 
-    // ---------------------------------------------------------------------------------------------------
-//*     This is how I would have set up the method, without trying to follow the directions. Seems to work just fine
-//    @PostMapping("add")
-//    public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-//                                    Errors errors, Model model) {
-//        if (errors.hasErrors()) {
-//            model.addAttribute("title", "Add Job");
-//            return "add";
-//        }
-//        jobRepository.save(newJob);
-//        return "redirect:";
-//    }
 
-    //------------------------------------------------------------------------------------------------------
-//* This is the original starter code for this POST handler request
-//* It provided @RequestParam int employerId
-//* I understand that @RequestParam can be used for form submission, but I am not really sure why it is needed her for
-//* the select options. We only pick one.
-
-//    @PostMapping("add")
-//    public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-//                                    Errors errors, Model model, @RequestParam int employerId) {
-//
-//        if (errors.hasErrors()) {
-//            model.addAttribute("title", "Add Job");
-//            return "add";
-//        }
-//
-//        return "redirect:";
-//    }
-//
+    //TODO: add code inside method to select the employer object associated with the new job
+    //Optional to check if there actually is an employer at the specific id
+    //TODO: add @RequestParam List<Integer> skills
+    //TODO: List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills); newJob.setSkills(skillObjs);
+    //I want to put those things inside a conditional that will check if null or not.
+    @PostMapping("add")
+    public String processAddJobForm(@ModelAttribute @Valid Job newJob,
+                                    Errors errors, Model model, @RequestParam(required = false) int employerId,
+                                    @RequestParam(required = false) List<Integer> skills) {
 
 
+    if (errors.hasErrors()) {
+        model.addAttribute("title", "Add Job");
+        return "add";
+    } else {
 
-    //* int can't be null, so it would be need to be the wrapper class Integer for the @RequestParam
-    //* This is what I feel the directions want me to do, or something along these lines, but...
-    //* Asks me to add a @RequestParam, did I need to add an Employer instance as well?
-    //* I just added required=false
-    //* I still would need a jobRepository so I could actually save the job to the database
-
-//    @PostMapping("add")
-//    public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-//                                    Errors errors, Model model, @RequestParam(required = false) Integer employerId) {
-//
-//        if (errors.hasErrors()) {
-//            model.addAttribute("title", "Add Job");
-//            return "add";
-//        } else {
-//            if (employerId != null) {
-//                Optional<Employer> result = employerRepository.findById(employerId);
-//                if (result.isPresent()) {
-//                    Employer employer = result.get();
-//                    newJob.setEmployer(employer);
-//                }
-//            }
-//                jobRepository.save(newJob);
-//                return "redirect:";
-//            }
-//        }
-
-
-
-        //-------------------------------------------------------------------------------------
-        //* Working on this same handler for task 4. Keeping in separate since I have questions regarding task 3
-        //* Had to change the conditional to not test employerId for null because the test fails if I change int to Integer
-        @PostMapping("add")
-        public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                        Errors errors, Model model, @RequestParam(required = false) int employerId,
-                                        @RequestParam(required = false) List<Integer> skills) {
-
-
-        if (errors.hasErrors()) {
-            model.addAttribute("title", "Add Job");
-            return "add";
-        } else {
-//            if (employerId != null) {
-//                Optional<Employer> result = employerRepository.findById(employerId);
-//                if (result.isPresent()) {
-//                    Employer employer = result.get();
-//                    newJob.setEmployer(employer);
-//                }
-            Optional<Employer> result = employerRepository.findById(employerId);
-            if (result.isPresent()) {
-                Employer employer = result.get();
-                newJob.setEmployer(employer);
-            }
+        Optional<Employer> result = employerRepository.findById(employerId);
+        if (result.isPresent()) {
+            Employer employer = result.get();
+            newJob.setEmployer(employer);
         }
-            if (skills != null) {
-                List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-                newJob.setSkills(skillObjs);
-            }
-
-            jobRepository.save(newJob);
-            return "redirect:";
-
+    }
+        if (skills != null) {
+            List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+            newJob.setSkills(skillObjs);
         }
 
-    //------------------------------------------------------------------------------------
-        @GetMapping("view/{jobId}")
-        public String displayViewJob (Model model,@PathVariable int jobId){
-
-            return "view";
-        }
+        jobRepository.save(newJob);
+        return "redirect:";
 
     }
 
 
-//REFERENCE FROM CARRIES LECTURE VIDEOS
-//This is for displaying by id not for processing
+        @GetMapping("view/{jobId}")
+        public String displayViewJob (Model model,@PathVariable int jobId){
 
-//if (artistId != null){
-//Optional<Artist> result = artistRepository.findById(artistId);
-//if (result.isPresent()) {
-//Artist artist = result.get();
-//Model.addAttribute(“artworks”, artist.getArtworks());
-//
-//        } else {
-//        model.addAttribute(“artworks”, artworkRepository.findAll();
-//	}
-//            return “artworks/index”;
-//        }
+            Optional optJob = jobRepository.findById(jobId);
+            if (optJob.isPresent()) {
+                Job job = (Job) optJob.get();
+                model.addAttribute("job", job);
+                return "view";
+            } else {
+                return "redirect:../";
+            }
+    }
+}
+
+
 
 
 
