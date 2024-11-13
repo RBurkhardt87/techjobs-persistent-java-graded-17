@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,9 @@ public class HomeController {
     }
 
 
+
+
+
     //TODO: add code inside method to select the employer object associated with the new job
     //Optional to check if there actually is an employer at the specific id
     //TODO: add @RequestParam List<Integer> skills
@@ -66,44 +70,47 @@ public class HomeController {
     //I want to put those things inside a conditional that will check if null or not.
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                    Errors errors, Model model, @RequestParam(required = false) int employerId,
+                                    Errors errors, Model model, @RequestParam(required = false) Integer employerId,
                                     @RequestParam(required = false) List<Integer> skills) {
-
-
-    if (errors.hasErrors()) {
-        model.addAttribute("title", "Add Job");
-        return "add";
-    } else {
-
-        Optional<Employer> result = employerRepository.findById(employerId);
-        if (result.isPresent()) {
-            Employer employer = result.get();
-            newJob.setEmployer(employer);
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Add Job");
+            return "add";
+        } else {
+            if (employerId != null) {
+                Optional<Employer> result = employerRepository.findById(employerId);
+                if (result.isPresent()) {
+                    Employer employer = result.get();
+                    newJob.setEmployer(employer);
+                }
+            }
         }
-    }
         if (skills != null) {
             List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
             newJob.setSkills(skillObjs);
         }
-
         jobRepository.save(newJob);
         return "redirect:";
-
     }
 
 
-        @GetMapping("view/{jobId}")
-        public String displayViewJob (Model model,@PathVariable int jobId){
 
-            Optional optJob = jobRepository.findById(jobId);
-            if (optJob.isPresent()) {
-                Job job = (Job) optJob.get();
-                model.addAttribute("job", job);
-                return "view";
-            } else {
-                return "redirect:../";
-            }
+
+
+
+    @GetMapping("view/{jobId}")
+    public String displayViewJob(Model model, @PathVariable int jobId) {
+
+        Optional<Job> optJob = jobRepository.findById(jobId);
+        if (optJob.isPresent()) {
+            Job job = (Job) optJob.get();
+            model.addAttribute("job", job);
+            return "view";
+        } else {
+            return "redirect:../";
+        }
     }
+
+
 }
 
 

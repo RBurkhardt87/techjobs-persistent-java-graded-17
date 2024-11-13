@@ -2,6 +2,7 @@ package org.launchcode.techjobs.persistent.models;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,9 @@ import java.util.List;
 public class Job extends AbstractEntity {
 
 
+
     //if this is the non-owning entity, do I need to add mappedBy="jobs" ? Still not sure I understand
+    @NotNull
     @ManyToOne
     private Employer employer;
 
