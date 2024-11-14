@@ -12,7 +12,7 @@ public class Job extends AbstractEntity {
 
 
 
-    //if this is the non-owning entity, do I need to add mappedBy="jobs" ? Still not sure I understand
+
     @NotNull
     @ManyToOne
     private Employer employer;
@@ -25,14 +25,14 @@ public class Job extends AbstractEntity {
     public Job() {
     }
 
-    // Initialize the id and value fields.
+
     public Job(Employer anEmployer, List<Skill> someSkills) {
         super();
         this.employer = anEmployer;
         this.skills = someSkills;
     }
 
-    // Getters and setters.
+
     public Employer getEmployer() {
         return employer;
     }

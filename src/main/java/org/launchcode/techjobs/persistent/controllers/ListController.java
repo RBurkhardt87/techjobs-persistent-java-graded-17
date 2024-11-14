@@ -41,7 +41,8 @@ public class ListController {
 
     }
 
-    //TODO: pass in the employers and skills
+
+
     @RequestMapping("")
     public String list(Model model) {
         model.addAttribute("employers", employerRepository.findAll());
@@ -49,6 +50,8 @@ public class ListController {
 
         return "list";
     }
+
+
 
     @RequestMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {

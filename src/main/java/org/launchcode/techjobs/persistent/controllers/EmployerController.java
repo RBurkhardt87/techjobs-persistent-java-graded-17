@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequestMapping("/employers")
 public class EmployerController {
 
-    //TODO: add EmployerRepository
+
     @Autowired
     private EmployerRepository employerRepository;
 
@@ -29,7 +29,8 @@ public class EmployerController {
         return "employers/add";
     }
 
-    //TODO: add line of code that will save a newEmployer to starter code
+
+
     @PostMapping("add")
     public String processAddEmployerForm(@ModelAttribute @Valid  Employer newEmployer,
                                          Errors errors, Model model) {
@@ -40,6 +41,8 @@ public class EmployerController {
         employerRepository.save(newEmployer);
         return "redirect:";
     }
+
+
 
 
     //displayViewEmployer (starter code)
@@ -57,11 +60,9 @@ public class EmployerController {
 
     }
 
-    //TODO: Create an index method that displays a list of all employees in the database
-    //method lives at "/employers"  --- the test required a "/" not empty ""
-    //method should return "employers/index"
-    //"employers" is how to reference the collection of employers
-    //.findAll() on the employerRepository object to pull in the full list
+
+
+
     @GetMapping("/")
     public String index(Model model){
         model.addAttribute("employers", employerRepository.findAll());

@@ -1,6 +1,6 @@
 package org.launchcode.techjobs.persistent.controllers;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
+
 import jakarta.validation.Valid;
 import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Job;
@@ -15,7 +15,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,20 +24,21 @@ import java.util.Optional;
 @Controller
 public class HomeController {
 
-    //TODO: add EmployerRepository with @Autowired annotation
+
     @Autowired
     private EmployerRepository employerRepository;
 
-    //TODO: add SkillRepository with @Autowired
+
     @Autowired
     private SkillRepository skillRepository;
 
-    //* Added JobRepository even though directions didn't tell us to do that....How else would I be able to save jobs
+
     @Autowired
     private JobRepository jobRepository;
 
 
-    //TODO: pass in all the jobs to be displayed in a list
+
+
     @RequestMapping("/")
     public String index(Model model) {
         model.addAttribute("title", "MyJobs");
@@ -47,8 +47,8 @@ public class HomeController {
     }
 
 
-    //TODO: pass all the employers to the model
-    //TODO: pass all skills to the model
+
+
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
         model.addAttribute("title", "Add Job");
@@ -61,19 +61,14 @@ public class HomeController {
 
 
 
-
-
-    //TODO: add code inside method to select the employer object associated with the new job
-    //Optional to check if there actually is an employer at the specific id
-    //TODO: add @RequestParam List<Integer> skills
-    //TODO: List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills); newJob.setSkills(skillObjs);
-    //I want to put those things inside a conditional that will check if null or not.
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
                                     Errors errors, Model model, @RequestParam(required = false) Integer employerId,
                                     @RequestParam(required = false) List<Integer> skills) {
-        if (errors.hasErrors()) {
+        if (errors.hasErrors() || skills == null) {
             model.addAttribute("title", "Add Job");
+            model.addAttribute("employers", employerRepository.findAll());
+            model.addAttribute("skills", skillRepository.findAll());
             return "add";
         } else {
             if (employerId != null) {
@@ -81,18 +76,18 @@ public class HomeController {
                 if (result.isPresent()) {
                     Employer employer = result.get();
                     newJob.setEmployer(employer);
+
+
                 }
             }
         }
-        if (skills != null) {
-            List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-            newJob.setSkills(skillObjs);
-        }
+
+        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+        newJob.setSkills(skillObjs);
+
         jobRepository.save(newJob);
         return "redirect:";
     }
-
-
 
 
 
@@ -111,12 +106,5 @@ public class HomeController {
     }
 
 
+
 }
-
-
-
-
-
-
-
-

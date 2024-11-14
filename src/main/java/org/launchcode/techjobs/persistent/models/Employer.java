@@ -13,17 +13,11 @@ import java.util.List;
 @Entity
 public class Employer extends AbstractEntity {
 
-    //fields
+
     @NotBlank
     @Size(min = 2, max = 100, message = "Must be between 2 and 100 characters")
     private String location;
 
-
-    /*
-    The annotation @JoinColumn indicates that this entity is the owner of the relationship (that is: the corresponding
-    table has a column with a foreign key to the referenced table), whereas the attribute mappedBy indicates that the
-    entity in this side is the inverse of the relationship, and the owner resides in the "other" entity.
-     */
 
 
     @OneToMany
@@ -32,9 +26,10 @@ public class Employer extends AbstractEntity {
 
 
 
-    //empty constructor for hibernate
+
     public Employer() {
     }
+
 
     public Employer(String location) {
         super();
@@ -43,7 +38,6 @@ public class Employer extends AbstractEntity {
 
 
 
-    //getters/setters
     public @NotBlank @Size(min = 2, max = 100, message = "Must be between 2 and 100 characters") String getLocation() {
         return location;
     }

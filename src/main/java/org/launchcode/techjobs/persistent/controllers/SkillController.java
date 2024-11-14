@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-//? I made ("/skills") like the employer controller, and then it wouldn't do any validation error. I have been trouble with
-//? the trailing forward slash with my controllers and redirects.
+
 
 @Controller
 @RequestMapping("/skills")
 public class SkillController {
 
-    //TODO: declare a skillRepository
+
     @Autowired
     private SkillRepository skillRepository;
 
 
-    //TODO: displayAddSkillForm
+
     @GetMapping("add")
     public String displayAddSkillForm(Model model){
         model.addAttribute(new Skill());
@@ -31,7 +30,7 @@ public class SkillController {
     }
 
 
-    //TODO: processAddSkillForm
+
     @PostMapping("add")
     public String processAddSkillForm(@Valid @ModelAttribute Skill newSkill,
                                       Errors errors, Model model){
@@ -44,7 +43,7 @@ public class SkillController {
     }
 
 
-    //TODO: displayViewSkill
+
     @GetMapping("view/{skillId}")
     public String displayViewSkill(Model model, @PathVariable int skillId) {
 
@@ -59,7 +58,7 @@ public class SkillController {
     }
 
 
-    //TODO: index method that displays all skills
+
     @GetMapping("/")
     public String index(Model model){
         model.addAttribute("skills", skillRepository.findAll());

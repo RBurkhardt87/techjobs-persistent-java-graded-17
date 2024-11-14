@@ -27,7 +27,7 @@ public abstract class AbstractEntity {
     public AbstractEntity() {
     }
 
-    //although it is an abstract class, the subclasses need a constructor with name field to call to
+
     public AbstractEntity(String name) {
         this.name = name;
     }

@@ -16,8 +16,7 @@ public class Skill extends AbstractEntity {
     @Size(min= 1, max = 500, message = "Must be under 500 characters")
     private String description;
 
-    //TODO: Add jobs field, make it @ManyToMany(mappedBy="skills")
-    //* Think this is secondary class. That is why we are using mappedBy attribute
+
     @ManyToMany(mappedBy = "skills")
     private List<Job> jobs = new ArrayList<>();
 
